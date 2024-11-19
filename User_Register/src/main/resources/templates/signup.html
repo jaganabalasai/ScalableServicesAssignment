@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="style.css"> <!-- Linking the external CSS -->
+</head>
+<body>
+  <div class="signup-container">
+    <h1>Sign Up</h1>
+    <form action="/signup" method="POST">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+      </div>
+       <div class="form-group">
+        <label for="confirmpassword">Password</label>
+        <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Enter your password" required>
+      </div>
+      <button type="submit" class="btn">Sign Up</button>
+    </form>
+    <a href="/login" class="link">Already have an account? Log in</a>
+  </div>
+</body>
+</html>
+ <script>
+    // Get the submit button element
+    const submitButton = document.getElementById('submit');
+    
+    // Add an event listener to handle the click event
+    submitButton.addEventListener('click', () => {
+        // Get form values
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const confirmpassword = document.getElementById('confirmpassword').value;
+        const email = document.getElementById('email').value;
+
+        // Create a data object
+        const data = {
+            username,
+            password,
+            email
+        };
+
+        // Check if passwords match
+        if (password === confirmpassword) {
+            // Convert the data object to a JSON string
+            const jsonData = JSON.stringify(data);
+
+            // Send the data via fetch API
+            fetch('/req/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonData
+            })
+            .then(response => {
+                // Handle the response here
+                if (response.ok) {
+                    alert('User registered successfully!');
+                } else {
+                    alert('Error registering user!');
+                }
+            })
+            .catch(error => {
+                // Handle any errors in the fetch request
+                console.error('Error:', error);
+                alert('An error occurred while processing your request.');
+            });
+        } else {
+            alert('Passwords do not match!');
+        }
+    });
+</script>
+ 
